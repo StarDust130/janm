@@ -1,0 +1,16 @@
+[
+  {
+    "id": "scheme_001",
+    "name_en": "Pradhan Mantri Awas Yojana",
+    "name_hi": "प्रधानमंत्री आवास योजना",
+    "tags": ["housing", "home", "money", "rural"],
+    "benefits": "₹1.2 Lakh for building house",
+    "eligibility": {
+      "income_limit": 200000,
+      "requires_land": true,
+      "caste_category": ["SC", "ST", "OBC", "Gen"]
+    },
+    "documents_needed": ["Aadhaar", "Income Certificate", "Land Record"],
+    "location_type": "Gram Panchayat"
+  }
+]
