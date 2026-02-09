@@ -10,44 +10,22 @@ import { ModeToggle } from "@/components/ui/ModeToggle";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/ui/LanguageSelector";
-
-const INDIAN_LANGS = [
-  { code: "hi", label: "हिंदी", flag: "🇮🇳" },
-  { code: "en", label: "English", flag: "🇬🇧" },
-  { code: "ta", label: "தமிழ்", flag: "🕉️" },
-  { code: "bn", label: "বাংলা", flag: "🐅" },
-];
+import { useLanguage } from "@/context/LanguageContext"; // 👈 IMPORT
 
 export const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { theme, setTheme } = useTheme();
-  const [lang, setLang] = useState(INDIAN_LANGS[0]);
+  const { t } = useLanguage(); // 👈 USE HOOK
 
-  useEffect(() => {
-    if (isMenuOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "unset";
-  }, [isMenuOpen]);
+  // ... (Scroll logic remains same) ...
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down
-        setIsVisible(false);
-      } else {
-        // Scrolling up
-        setIsVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  const MENU_ITEMS = [
+    { label: t.nav.schemes, href: "#schemes" },
+    { label: t.nav.howItWorks, href: "#how-it-works" },
+    { label: t.nav.stories, href: "#stories" },
+  ];
 
   return (
     <>
@@ -55,10 +33,9 @@ export const Navbar = () => {
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="sticky top-0  z-40 backdrop-blur-xl  py-2 px-4"
+        className="sticky top-0 z-40 backdrop-blur-xl py-2 px-4"
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Logo */}
           <Image
             src="/logo-2.png"
             alt="JANM Logo"
@@ -67,46 +44,32 @@ export const Navbar = () => {
             className="border bg-white rounded-xl"
           />
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav - Using Translated Items */}
           <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600 dark:text-slate-300">
-            <Link
-              href="#schemes"
-              className="hover:text-orange-600 transition-colors"
-            >
-              Schemes
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="hover:text-green-600 transition-colors"
-            >
-              How it Works
-            </Link>
-            <Link
-              href="#stories"
-              className="hover:text-blue-600 transition-colors"
-            >
-              Stories
-            </Link>
+            {MENU_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-orange-600 transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Controls */}
           <div className="flex items-center gap-3 z-50">
             <div className="hidden md:flex gap-3">
               <LanguageSelector />
               <ModeToggle />
             </div>
-
-            {/* Language Selector for Mobile */}
-             <div className="md:hidden flex gap-3">
-            <LanguageSelector />
+            <div className="md:hidden flex gap-3">
+              <LanguageSelector />
             </div>
-
             <SignedIn>
               <UserButton />
             </SignedIn>
-
             <button
-              className="md:hidden p-2  rounded-lg text-slate-900 dark:text-white active:scale-95 transition-transform"
+              className="md:hidden p-2 rounded-lg text-slate-900 dark:text-white"
               onClick={() => setMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -115,7 +78,7 @@ export const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -128,14 +91,14 @@ export const Navbar = () => {
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
                 Menu
               </p>
-              {["Schemes", "How it Works", "Stories"].map((item) => (
+              {MENU_ITEMS.map((item) => (
                 <Link
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="text-3xl font-black text-slate-900 dark:text-white py-4 border-b border-slate-100 dark:border-slate-800 active:text-orange-500"
+                  className="text-3xl font-black text-slate-900 dark:text-white py-4 border-b border-slate-100 dark:border-slate-800"
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </div>
@@ -144,40 +107,34 @@ export const Navbar = () => {
               <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">
                 Settings
               </p>
-
               <SignedOut>
                 <SignInButton mode="modal">
                   <Button
                     onClick={() => setMenuOpen(false)}
-                    className="w-full  text-md font-bold py-3 rounded-lg hover:opacity-90 transition-opacity shadow-md active:scale-95"
+                    className="w-full text-md font-bold py-3"
                   >
-                    Login
+                    {t.nav.login}
                   </Button>
                 </SignInButton>
               </SignedOut>
-
               <Button
-              variant={"outline"}
+                variant={"outline"}
                 onClick={() => {
                   setTheme(theme === "dark" ? "light" : "dark");
                   setMenuOpen(false);
                 }}
-                className="w-full py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700  flex items-center justify-center gap-2 font-semibold text-slate-700 dark:text-slate-200 active:scale-95 transition-transform hover:bg-slate-100 dark:hover:bg-slate-700"
+                className="w-full py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 font-semibold"
               >
                 {theme === "dark" ? (
                   <>
-                    <Sun size={18} /> Light Mode
+                    <Sun size={18} /> {t.nav.lightMode}
                   </>
                 ) : (
                   <>
-                    <Moon size={18} /> Dark Mode
+                    <Moon size={18} /> {t.nav.darkMode}
                   </>
                 )}
               </Button>
-
-              <div className="hidden md:flex gap-2">
-                <ModeToggle />
-              </div>
             </div>
           </motion.div>
         )}

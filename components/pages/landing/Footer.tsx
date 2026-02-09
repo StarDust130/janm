@@ -3,10 +3,13 @@
 import { Globe2, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export const Footer = () => {
+  const { t } = useLanguage();
+
   return (
-    <footer className=" pt-20 pb-10 px-4 border-t border-slate-200 dark:border-slate-800">
+    <footer className="pt-20 pb-10 px-4 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-2">
@@ -20,45 +23,44 @@ export const Footer = () => {
               />
             </div>
             <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-sm">
-              Building the digital bridge between Bharat&apos;s citizens and
-              their rights. Made with ❤️ for India.
+              {t.footer.tagline}
             </p>
           </div>
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white mb-6">
-              Platform
+              {t.footer.platform}
             </h4>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
               <li>
                 <Link href="#schemes" className="hover:text-orange-500">
-                  Schemes
+                  {t.nav.schemes}
                 </Link>
               </li>
               <li>
                 <Link href="#how-it-works" className="hover:text-orange-500">
-                  How it Works
+                  {t.nav.howItWorks}
                 </Link>
               </li>
               <li>
                 <Link href="#stories" className="hover:text-orange-500">
-                  Success Stories
+                  {t.nav.stories}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white mb-6">
-              Legal
+              {t.footer.legal}
             </h4>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
               <li>
                 <a href="#" className="hover:text-orange-500">
-                  Privacy Policy
+                  {t.footer.privacy}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-orange-500">
-                  Terms of Use
+                  {t.footer.terms}
                 </a>
               </li>
             </ul>
@@ -69,10 +71,10 @@ export const Footer = () => {
             © 2026 JANM Technologies.
           </p>
           <div className="flex gap-4">
-            <span className="w-8 h-8  rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
+            <span className="w-8 h-8 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
               <Globe2 size={16} />
             </span>
-            <span className="w-8 h-8  rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
+            <span className="w-8 h-8 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
               <ShieldCheck size={16} />
             </span>
           </div>
