@@ -32,7 +32,7 @@ export const StoriesSection = () => {
         ].map((story, i) => (
           <div
             key={i}
-            className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+            className=" p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
           >
             <div className="flex items-center gap-4 mb-4">
               <div
@@ -46,7 +46,7 @@ export const StoriesSection = () => {
               </div>
             </div>
             <p className="text-slate-600 dark:text-slate-300 italic">
-              "{story.msg}"
+              &quot;{story.msg}&quot;
             </p>
           </div>
         ))}
