@@ -6,11 +6,12 @@ import { Mic, Play, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { BharatButton } from "@/components/ui/BharatButton";
 import { VideoModal } from "@/components/ui/VideoModal";
+import { useLanguage } from "@/context/LanguageContext";
 
-// The Cool Grid Background
+// --- Background Pattern ---
 const GridPattern = () => (
   <svg
-    className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-slate-800 mask-[radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-slate-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
     aria-hidden="true"
   >
     <defs>
@@ -34,129 +35,136 @@ const GridPattern = () => (
 
 export const HeroSection = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
-    <section className="relative pt-12 pb-20 px-4  w-full mx-auto md:px-24 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
+    <section className="relative pt-16 pb-24 px-4 w-full mx-auto md:px-12 lg:px-24 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
       <VideoModal isOpen={isVideoOpen} onClose={() => setVideoOpen(false)} />
       <GridPattern />
 
-      {/* Cool Animated Blobs */}
+      {/* --- Ambient Background Lights --- */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-        transition={{ duration: 20, repeat: Infinity }}
-        className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-200/40 dark:bg-orange-900/20 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2"
-      ></motion.div>
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-0 right-0 w-[400px] h-[400px] bg-orange-300/30 dark:bg-orange-600/20 rounded-full blur-[100px] -z-10"
+      />
       <motion.div
-        animate={{ scale: [1, 1.1, 1], rotate: [0, -45, 0] }}
-        transition={{ duration: 15, repeat: Infinity }}
-        className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-green-200/40 dark:bg-green-900/20 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2"
-      ></motion.div>
+        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, delay: 1 }}
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-green-300/30 dark:bg-green-600/20 rounded-full blur-[100px] -z-10"
+      />
 
-      {/* Left Content */}
+      {/* --- LEFT: TEXT CONTENT --- */}
       <div className="flex-1 text-center md:text-left z-10 order-1">
+        {/* Animated Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full shadow-sm mb-6 relative overflow-hidden bg-linear-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800"
-          style={{
-            backgroundImage: `linear-gradient(90deg, rgba(148,163,184,0.2), rgba(34,197,94,0.2), rgba(148,163,184,0.2))`,
-            backgroundSize: "200% 100%",
-            animation: "shimmer 3s infinite",
-          }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full shadow-sm mb-6 border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm"
         >
-          <style>{`
-            @keyframes shimmer {
-              0%, 100% { background-position: 200% 0; }
-              50% { background-position: -200% 0; }
-            }
-            @keyframes borderGlow {
-              0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.3); }
-              50% { box-shadow: 0 0 25px rgba(34,197,94,0.6); }
-            }
-          `}</style>
-          <div className="absolute inset-0 rounded-full border border-transparent bg-gradient-to-r from-slate-300 via-green-400 to-slate-300 dark:from-slate-700 dark:via-green-500 dark:to-slate-700 p-[1px]">
-            <div className="absolute inset-0 rounded-full bg-white dark:bg-slate-900"></div>
-          </div>
-
-          <div className="relative flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            <span className="text-xs font-bold tracking-wide uppercase">
-              Apka Personal AI
-            </span>
-          </div>
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+          </span>
+          <span className="text-xs font-bold tracking-wide uppercase text-slate-700 dark:text-slate-300">
+            {t.badge}
+          </span>
         </motion.div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.05] mb-6 text-slate-900 dark:text-white tracking-tight">
-          Apka Haq. <br />
+        {/* Main Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-6 text-slate-900 dark:text-white tracking-tight"
+        >
+          {t.titleMain} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-600 to-green-600">
-            Directly in Bank.
+            {t.titleSub}
           </span>
-        </h1>
+        </motion.h1>
 
-        <p className="text-lg md:text-xl font-medium mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
-          Don't fill long forms. Just{" "}
-          <strong>speak in Hindi, Tamil or English</strong>. We find the
-          "Sarkari Yojana" and help you apply in 2 minutes.
-        </p>
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-lg md:text-xl font-medium text-slate-600 dark:text-slate-300 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed"
+        >
+          {t.desc}
+        </motion.p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+        >
           <Link href="/dashboard" className="w-full sm:w-auto">
             <BharatButton
               variant="success"
-              className="w-full text-lg px-8 py-5"
+              className="w-full text-lg px-8 py-4"
             >
-              <Mic size={24} /> Speak Now (बोलें)
+              <Mic size={24} /> {t.btnSpeak}
             </BharatButton>
           </Link>
           <BharatButton
             variant="secondary"
-            className="w-full sm:w-auto px-8 py-5 text-slate-600"
+            className="w-full sm:w-auto px-8 py-4 text-slate-600"
             onClick={() => setVideoOpen(true)}
           >
-            <Play size={20} className="fill-slate-900" /> Watch Demo
+            <Play size={20} className="fill-slate-900" /> {t.btnWatch}
           </BharatButton>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Right Content - 3D Phone */}
+      {/* --- RIGHT: 3D PHONE VISUAL --- */}
       <div className="flex-1 w-full max-w-md relative flex justify-center order-2">
-        <div className="relative w-full aspect-[4/5]">
+        <div className="relative w-full aspect-[4/5] perspective-1000">
           <motion.div
-            animate={{ y: [0, -15, 0] }}
+            animate={{ y: [0, -15, 0], rotateX: [0, 5, 0], rotateY: [0, 5, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-white dark:bg-slate-900 border-[6px] border-white dark:border-slate-800 rounded-[2.5rem] shadow-2xl overflow-hidden"
+            className="absolute inset-0 bg-white dark:bg-slate-900 border-[8px] border-white dark:border-slate-800 rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden"
           >
+            {/* Phone Image */}
             <img
               src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=1000&auto=format&fit=crop"
               alt="Indian User"
-              className="w-full h-full object-cover opacity-90"
+              className="w-full h-full object-cover opacity-95 hover:scale-105 transition-transform duration-700"
             />
 
+            {/* Success Card (Floating) */}
             <motion.div
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="absolute bottom-6 left-6 right-6 bg-white dark:bg-black/75 backdrop-blur p-4 rounded-2xl shadow-xl border-t-4 border-green-500"
+              transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
+              className="absolute bottom-6 left-6 right-6 bg-white/95 dark:bg-black/80 backdrop-blur-md p-5 rounded-2xl shadow-lg border-t-4 border-green-500"
             >
               <div className="flex justify-between items-start mb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white">
-                    <CheckCircle2 size={12} />
+                  <div className="w-6 h-6 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
+                    <CheckCircle2 size={16} />
                   </div>
                   <span className="font-bold text-sm text-green-700 dark:text-green-400">
-                    Approved
+                    {t.cardApproved}
                   </span>
                 </div>
-                <span className="text-xs font-bold text-slate-400">Now</span>
+                <span className="text-xs font-bold text-slate-400">
+                  Just Now
+                </span>
               </div>
-              <p className="text-2xl font-black text-slate-900 dark:text-white">
-                ₹ 6,000
-              </p>
-              <p className="text-xs text-slate-300 font-medium">
-                Credited to Bank Account
+
+              <div className="flex items-baseline gap-1 mt-1">
+                <span className="text-3xl font-black text-slate-900 dark:text-white">
+                  ₹6,000
+                </span>
+                <span className="text-lg">🎉</span>
+              </div>
+
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                {t.cardCredit}
               </p>
             </motion.div>
           </motion.div>

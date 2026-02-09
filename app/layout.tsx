@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/others/theme-provider";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <LanguageProvider>{children}</LanguageProvider>
           </ThemeProvider>
         </body>
       </html>

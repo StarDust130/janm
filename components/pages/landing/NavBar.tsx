@@ -9,6 +9,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import LanguageSelector from "@/components/ui/LanguageSelector";
 
 const INDIAN_LANGS = [
   { code: "hi", label: "हिंदी", flag: "🇮🇳" },
@@ -91,19 +92,15 @@ export const Navbar = () => {
           {/* Controls */}
           <div className="flex items-center gap-3 z-50">
             <div className="hidden md:flex gap-3">
-              <button className="text-xs font-bold border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex gap-2 transition-colors">
-                <span>{lang.flag}</span> <span>{lang.label}</span>
-              </button>
+              <LanguageSelector />
               <ModeToggle />
             </div>
 
-            <SignedOut>
-              <SignInButton mode="modal">
-                <Button className=" text-xs font-bold px-4 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
-                  Login
-                </Button>
-              </SignInButton>
-            </SignedOut>
+            {/* Language Selector for Mobile */}
+             <div className="md:hidden flex gap-3">
+            <LanguageSelector />
+            </div>
+
             <SignedIn>
               <UserButton />
             </SignedIn>
@@ -144,34 +141,43 @@ export const Navbar = () => {
             </div>
 
             <div className="mt-auto flex flex-col gap-4">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">
                 Settings
               </p>
-              <div className="grid grid-cols-2 gap-3">
-                {INDIAN_LANGS.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => setLang(l)}
-                    className={`p-3 rounded-xl border-2 font-bold text-sm flex items-center justify-center gap-2 transition-all ${lang.code === l.code ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20 text-orange-700" : "border-slate-100 dark:border-slate-700"}`}
+
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button
+                    onClick={() => setMenuOpen(false)}
+                    className="w-full  text-md font-bold py-3 rounded-lg hover:opacity-90 transition-opacity shadow-md active:scale-95"
                   >
-                    <span>{l.flag}</span> {l.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="w-full p-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 flex items-center justify-center gap-3 font-bold active:scale-95 transition-transform"
+                    Login
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+
+              <Button
+              variant={"outline"}
+                onClick={() => {
+                  setTheme(theme === "dark" ? "light" : "dark");
+                  setMenuOpen(false);
+                }}
+                className="w-full py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700  flex items-center justify-center gap-2 font-semibold text-slate-700 dark:text-slate-200 active:scale-95 transition-transform hover:bg-slate-100 dark:hover:bg-slate-700"
               >
                 {theme === "dark" ? (
                   <>
-                    <Moon /> Dark Mode
+                    <Sun size={18} /> Light Mode
                   </>
                 ) : (
                   <>
-                    <Sun /> Light Mode
+                    <Moon size={18} /> Dark Mode
                   </>
                 )}
-              </button>
+              </Button>
+
+              <div className="hidden md:flex gap-2">
+                <ModeToggle />
+              </div>
             </div>
           </motion.div>
         )}
