@@ -10,7 +10,7 @@ import { VideoModal } from "@/components/ui/VideoModal";
 // The Cool Grid Background
 const GridPattern = () => (
   <svg
-    className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-slate-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-slate-800 mask-[radial-gradient(100%_100%_at_top_right,white,transparent)]"
     aria-hidden="true"
   >
     <defs>
@@ -57,15 +57,36 @@ export const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-1.5 rounded-full shadow-sm mb-6"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full shadow-sm mb-6 relative overflow-hidden bg-linear-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800"
+          style={{
+            backgroundImage: `linear-gradient(90deg, rgba(148,163,184,0.2), rgba(34,197,94,0.2), rgba(148,163,184,0.2))`,
+            backgroundSize: "200% 100%",
+            animation: "shimmer 3s infinite",
+          }}
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-          </span>
-          <span className="text-xs font-bold text-slate-600 dark:text-slate-300 tracking-wide uppercase">
-            AI Active in 12 States
-          </span>
+          <style>{`
+            @keyframes shimmer {
+              0%, 100% { background-position: 200% 0; }
+              50% { background-position: -200% 0; }
+            }
+            @keyframes borderGlow {
+              0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.3); }
+              50% { box-shadow: 0 0 25px rgba(34,197,94,0.6); }
+            }
+          `}</style>
+          <div className="absolute inset-0 rounded-full border border-transparent bg-gradient-to-r from-slate-300 via-green-400 to-slate-300 dark:from-slate-700 dark:via-green-500 dark:to-slate-700 p-[1px]">
+            <div className="absolute inset-0 rounded-full bg-white dark:bg-slate-900"></div>
+          </div>
+
+          <div className="relative flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-bold tracking-wide uppercase">
+              Apka Personal AI
+            </span>
+          </div>
         </motion.div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.05] mb-6 text-slate-900 dark:text-white tracking-tight">
@@ -75,7 +96,7 @@ export const HeroSection = () => {
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl font-medium text-slate-600 dark:text-slate-300 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
+        <p className="text-lg md:text-xl font-medium mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
           Don't fill long forms. Just{" "}
           <strong>speak in Hindi, Tamil or English</strong>. We find the
           "Sarkari Yojana" and help you apply in 2 minutes.
@@ -118,7 +139,7 @@ export const HeroSection = () => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1 }}
-              className="absolute bottom-6 left-6 right-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur p-4 rounded-2xl shadow-xl border-t-4 border-green-500"
+              className="absolute bottom-6 left-6 right-6 bg-white dark:bg-black/75 backdrop-blur p-4 rounded-2xl shadow-xl border-t-4 border-green-500"
             >
               <div className="flex justify-between items-start mb-2">
                 <div className="flex items-center gap-2">
@@ -134,7 +155,7 @@ export const HeroSection = () => {
               <p className="text-2xl font-black text-slate-900 dark:text-white">
                 ₹ 6,000
               </p>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-xs text-slate-300 font-medium">
                 Credited to Bank Account
               </p>
             </motion.div>

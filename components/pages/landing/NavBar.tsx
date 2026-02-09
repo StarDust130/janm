@@ -1,6 +1,6 @@
 "use client";
 
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Menu, X, Sun, Moon } from "lucide-react";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const INDIAN_LANGS = [
   { code: "hi", label: "हिंदी", flag: "🇮🇳" },
@@ -18,6 +19,8 @@ const INDIAN_LANGS = [
 
 export const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { theme, setTheme } = useTheme();
   const [lang, setLang] = useState(INDIAN_LANGS[0]);
 
@@ -26,12 +29,42 @@ export const Navbar = () => {
     else document.body.style.overflow = "unset";
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
     <>
-      <nav className="sticky top-0 z-40   backdrop-blur-xl border-b border-slate-100 py-3 px-4">
+      <motion.nav
+        initial={{ y: 0 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="sticky top-0  z-40 backdrop-blur-xl  py-2 px-4"
+      >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
-         <Image src="/logo-2.png" alt="JANM Logo" width={50} height={50} className="border bg-white rounded-xl" />
+          <Image
+            src="/logo-2.png"
+            alt="JANM Logo"
+            width={50}
+            height={50}
+            className="border bg-white rounded-xl"
+          />
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600 dark:text-slate-300">
@@ -61,14 +94,14 @@ export const Navbar = () => {
               <button className="text-xs font-bold border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex gap-2 transition-colors">
                 <span>{lang.flag}</span> <span>{lang.label}</span>
               </button>
-             <ModeToggle />
+              <ModeToggle />
             </div>
 
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold px-4 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+                <Button className=" text-xs font-bold px-4 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
                   Login
-                </button>
+                </Button>
               </SignInButton>
             </SignedOut>
             <SignedIn>
@@ -76,14 +109,14 @@ export const Navbar = () => {
             </SignedIn>
 
             <button
-              className="md:hidden p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-900 dark:text-white active:scale-95 transition-transform"
+              className="md:hidden p-2  rounded-lg text-slate-900 dark:text-white active:scale-95 transition-transform"
               onClick={() => setMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -92,7 +125,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-30 bg-white dark:bg-[#0B1121] pt-24 px-6 pb-6 flex flex-col gap-6 md:hidden overflow-y-auto"
+            className="fixed inset-0 z-30 bg-primary-foreground pt-24 px-6 pb-6 flex flex-col gap-6 md:hidden overflow-y-auto"
           >
             <div className="flex flex-col gap-2">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
