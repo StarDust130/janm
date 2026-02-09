@@ -1,12 +1,10 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useLayoutEffect,
-} from "react";
 import { Language, translations } from "@/data/translations/landingPage";
+import React, { createContext, useContext, useState, useEffect } from "react";
+// ⚠️ IMPORTANT: Make sure this path matches where you saved your translations file
+// If you saved it in 'lib/translations.ts', change this to "@/lib/translations"
+
 
 // 1. Define the Shape
 type LanguageContextType = {
@@ -27,26 +25,32 @@ export const LanguageProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  // ⚡ FIX: Use lazy initialization to read localStorage only once
-  // This avoids setState calls in useLayoutEffect
-  const [state, setState] = useState<{ lang: Language; isLoaded: boolean }>(
-    () => {
+  // Initialize with 'en' (Server Safe)
+  const [state, setState] = useState<{ lang: Language; isLoaded: boolean }>({
+    lang: "en",
+    isLoaded: false,
+  });
+
+  useEffect(() => {
+    // ⚡ FIX: Wrap in setTimeout to avoid "Synchronous setState" warning
+    // This moves the update to the next event loop tick, clearing the error.
+    const timer = setTimeout(() => {
       const saved = localStorage.getItem("janm-lang") as Language;
+
+      // If we found a saved language, use it. Otherwise use "en".
       const targetLang = saved && translations[saved] ? saved : "en";
-      return {
+
+      setState({
         lang: targetLang,
         isLoaded: true,
-      };
-    },
-  );
+      });
+    }, 0);
 
-  useLayoutEffect(() => {
-    // No setState needed here since state is initialized on mount
+    return () => clearTimeout(timer);
   }, []);
 
   const setLang = (newLang: Language) => {
     localStorage.setItem("janm-lang", newLang);
-    // Update just the language part of the state
     setState((prev) => ({ ...prev, lang: newLang }));
   };
 
@@ -55,7 +59,7 @@ export const LanguageProvider = ({
       value={{
         lang: state.lang,
         setLang,
-        t: translations[state.lang],
+        t: translations[state.lang] || translations["en"],
         isLoaded: state.isLoaded,
       }}
     >

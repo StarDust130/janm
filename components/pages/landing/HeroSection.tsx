@@ -132,7 +132,7 @@ export const HeroSection = () => {
             <img
               src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=1000&auto=format&fit=crop"
               alt="Indian User"
-              className="w-full h-full object-cover opacity-95 hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover  opacity-95  transition-transform duration-700"
             />
 
             {/* Success Card (Floating) */}
