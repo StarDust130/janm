@@ -32,7 +32,7 @@ export const VideoModal = ({
           </button>
           <iframe
             className="w-full h-full"
-            src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1"
+            src="https://www.youtube.com/embed/yyt4WLXJn6I?si=wkZvgfb0pdaPDsLM&autoplay=1"
             title="JANM Demo"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

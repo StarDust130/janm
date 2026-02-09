@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, Play, CheckCircle2 } from "lucide-react";
+import { Mic, Play, CheckCircle2, Sparkles, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { BharatButton } from "@/components/ui/BharatButton";
 import { VideoModal } from "@/components/ui/VideoModal";
@@ -10,9 +10,9 @@ import { useLanguage } from "@/context/LanguageContext";
 
 // --- HIGH QUALITY IMAGES ---
 const CAROUSEL_IMAGES = [
-  "https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=800&auto=format&fit=crop", // Happy Man
-  "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop", // Farmer
-  "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=800&auto=format&fit=crop", // Rural Digital
+  "https://www.pmindia.gov.in/wp-content/uploads/2026/02/H20260201203015.jpg", // Modi Ji
+  "https://www.pmindia.gov.in/wp-content/uploads/2026/01/H20260123201822.jpg", // Farmer
+  "https://www.pmindia.gov.in/wp-content/uploads/2025/11/H20251128197937.jpg", // Rural Digital
 ];
 
 const GridPattern = () => (
@@ -135,70 +135,52 @@ export const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* --- RIGHT: 3D PHONE (Fixed UI) --- */}
-      <div className="flex-1 w-full max-w-sm md:max-w-md relative flex justify-center order-2 px-4 md:px-0">
+      {/* --- RIGHT: 3D FLOATING POSTER (NO PHONE FRAME) --- */}
+      {/* --- RIGHT: PURE FLOATING GLASS FRAME (No Text) --- */}
+      {/* --- RIGHT: PURE FLOATING GLASS FRAME --- */}
+      <div className="flex-1 w-full max-w-md relative flex justify-center order-2 px-4 md:px-0">
         <div className="relative w-full aspect-[4/5] perspective-1000">
+          {/* THE GLASS FRAME CONTAINER */}
           <motion.div
-            animate={{ y: [0, -10, 0] }} // Gentle floating only
+            animate={{ y: [0, -20, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-slate-900 border-[10px] border-slate-100 rounded-[2.5rem] shadow-2xl overflow-hidden ring-1 ring-white/20"
+            className="absolute inset-0 rounded-[2.5rem] shadow-2xl overflow-hidden bg-slate-900 z-10"
           >
-            {/* CAROUSEL CONTAINER */}
-            <div className="relative w-full h-full bg-slate-800">
+            {/* 1. Cool Glass Border (The "Frame") */}
+            <div className="absolute inset-0 z-30 rounded-[2.5rem] border-[6px] border-white/10 pointer-events-none shadow-[inset_0_0_30px_rgba(255,255,255,0.15)] ring-1 ring-white/20" />
+
+            {/* 2. Carousel Images with CINEMATIC ANIMATION */}
+            <div className="relative w-full h-full bg-slate-900">
               <AnimatePresence mode="popLayout">
                 <motion.img
                   key={currentImageIndex}
                   src={CAROUSEL_IMAGES[currentImageIndex]}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1.2 }}
-                  alt="Indian Citizen Success"
+                  alt="Success Story"
                   className="absolute inset-0 w-full h-full object-cover"
+                  // ✨ THE NEW ANIMATION ✨
+                  // Start: Invisible, Zoomed In, Blurry
+                  initial={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
+                  // End: Visible, Normal Scale, Sharp
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  // Exit: Fade out slowly
+                  exit={{ opacity: 0, scale: 1, filter: "blur(0px)" }}
+                  // Smooth Duration
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
                 />
               </AnimatePresence>
 
-              {/* Dark Gradient at Bottom for readability */}
-              <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              {/* 3. Aesthetic Overlays */}
+
+              {/* Dark Gradient at bottom (Depth) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+
+              {/* Glossy Reflection (Top Right) */}
+              <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-b from-white/10 to-transparent rotate-45 blur-2xl z-20 pointer-events-none" />
             </div>
-
-            {/* Success Card (Premium Glass) */}
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-              className="absolute bottom-6 left-5 right-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/20"
-            >
-              {/* Top Row: Approved Badge */}
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center gap-2 px-2 py-1 bg-green-500/20 rounded-lg border border-green-500/30">
-                  <CheckCircle2 size={14} className="text-green-400" />
-                  <span className="text-xs font-bold text-green-100 uppercase tracking-wide">
-                    {t.cardApproved}
-                  </span>
-                </div>
-                <span className="text-[10px] font-medium text-slate-300 bg-black/40 px-2 py-0.5 rounded-full">
-                  1 min ago
-                </span>
-              </div>
-
-              {/* Money Row */}
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-3xl font-black text-white tracking-tight">
-                  ₹ 6,000
-                </span>
-                <span className="text-xl animate-bounce">🎉</span>
-              </div>
-
-              {/* Bank Credit Text */}
-              <div className="flex items-center gap-1.5 opacity-90">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <p className="text-xs text-slate-200 font-medium">
-                  {t.cardCredit}
-                </p>
-              </div>
-            </motion.div>
           </motion.div>
+
+          {/* 4. Background Glow (Behind the frame) */}
+          <div className="absolute top-10 left-4 right-4 bottom-0 bg-gradient-to-tr from-orange-500/40 to-green-500/40 rounded-[3rem] blur-3xl -z-10 animate-pulse" />
         </div>
       </div>
     </section>
