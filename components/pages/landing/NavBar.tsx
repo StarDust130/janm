@@ -19,7 +19,31 @@ export const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const { t } = useLanguage(); // 👈 USE HOOK
 
-  // ... (Scroll logic remains same) ...
+  // 1. Control Body Scroll when Mobile Menu is Open
+  useEffect(() => {
+    if (isMenuOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+  }, [isMenuOpen]);
+
+  // 2. Smart Scroll Logic (Hide Down, Show Up)
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Logic: If scrolling DOWN (> 50px) -> Hide Navbar
+      // If scrolling UP -> Show Navbar
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const MENU_ITEMS = [
     { label: t.nav.schemes, href: "#schemes" },
@@ -141,4 +165,4 @@ export const Navbar = () => {
       </AnimatePresence>
     </>
   );
-};
+};;
