@@ -10,7 +10,7 @@ const StatsStrip = () => {
   const STATS = [
     {
       val: "1.2 Cr+",
-      label: t.impact.citizens,
+      label: t.impact?.citizens,
       icon: Users,
       gradient:
         "from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400",
@@ -21,7 +21,7 @@ const StatsStrip = () => {
     },
     {
       val: "₹500 Cr",
-      label: t.impact.money,
+      label: t.impact?.money,
       icon: IndianRupee,
       gradient:
         "from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400",
@@ -32,7 +32,7 @@ const StatsStrip = () => {
     },
     {
       val: "12",
-      label: t.impact.languages,
+      label: t.impact?.languages,
       icon: Languages,
       gradient:
         "from-orange-600 to-red-600 dark:from-orange-400 dark:to-red-400",
@@ -65,7 +65,7 @@ const StatsStrip = () => {
             >
               {/* Subtle Gradient Background Blob */}
               <div
-                className={`absolute -right-10 -top-10 w-32 h-32 rounded-full opacity-10 bg-gradient-to-br ${s.gradient} blur-2xl group-hover:opacity-20 transition-opacity`}
+                className={`absolute -right-10 -top-10 w-32 h-32 rounded-full opacity-10 bg-linear-to-br ${s.gradient} blur-2xl group-hover:opacity-20 transition-opacity`}
               />
 
               {/* Icon */}
@@ -78,7 +78,7 @@ const StatsStrip = () => {
               {/* Text Content */}
               <div className="flex flex-col">
                 <h3
-                  className={`text-4xl font-black tracking-tight bg-gradient-to-r ${s.gradient} bg-clip-text text-transparent`}
+                  className={`text-4xl font-black tracking-tight bg-linear-to-r ${s.gradient} bg-clip-text text-transparent`}
                 >
                   {s.val}
                 </h3>
