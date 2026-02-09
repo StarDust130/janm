@@ -1,32 +1,42 @@
-import { ModeToggle } from "@/components/ui/ModeToggle";
+"use client";
 
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { Navbar } from "@/components/pages/landing/NavBar";
+import { HeroSection } from "@/components/pages/landing/HeroSection";
+import { SchemesSection } from "@/components/pages/landing/SchemesSection";
+import { HowItWorksSection } from "@/components/pages/landing/HowItWorksSection";
+import { StoriesSection } from "@/components/pages/landing/StoriesSection";
+import { Footer } from "@/components/pages//landing/Footer";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <header className="flex justify-end items-center p-4 gap-4 h-16">
-        {/* Show the sign-in and sign-up buttons when the user is signed out */}
-        <SignedOut>
-          <SignInButton />
-          <SignUpButton>
-            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-              Sign Up
-            </button>
-          </SignUpButton>
-        </SignedOut>
-        {/* Show the user button when the user is signed in */}
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </header>
-      <ModeToggle />
+    <div className="min-h-screen bg-white dark:bg-[#0B1121] font-sans">
+      <Navbar />
+      <HeroSection />
+
+      {/* Stats Strip */}
+      <div className="border-y border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 py-8">
+        <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-around gap-8 text-center">
+          {[
+            { val: "1.2 Cr+", label: "Citizens" },
+            { val: "₹500 Cr", label: "Money Unlocked" },
+            { val: "12", label: "Languages" },
+          ].map((s, i) => (
+            <div key={i}>
+              <p className="text-3xl font-black text-slate-900 dark:text-white">
+                {s.val}
+              </p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <SchemesSection />
+      <HowItWorksSection />
+      <StoriesSection />
+      <Footer />
     </div>
   );
 }
