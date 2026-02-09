@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-slate-50 dark:bg-[#080c17] pt-20 pb-10 px-4 border-t border-slate-200 dark:border-slate-800">
+    <footer className=" pt-20 pb-10 px-4 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-2">
@@ -69,10 +69,10 @@ export const Footer = () => {
             © 2026 JANM Technologies.
           </p>
           <div className="flex gap-4">
-            <span className="w-8 h-8 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
+            <span className="w-8 h-8  rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
               <Globe2 size={16} />
             </span>
-            <span className="w-8 h-8 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
+            <span className="w-8 h-8  rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-500 cursor-pointer">
               <ShieldCheck size={16} />
             </span>
           </div>
