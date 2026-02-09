@@ -14,7 +14,7 @@ export default function LandingPage() {
       <HeroSection />
 
       {/* Stats Strip */}
-      <div className="border-y border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 py-8">
+      <div className="border-y border-slate-100 dark:border-slate-800  py-8">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-around gap-8 text-center">
           {[
             { val: "1.2 Cr+", label: "Citizens" },

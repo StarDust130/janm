@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Landmark, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -42,7 +43,7 @@ export const SchemesSection = () => {
           <motion.div
             whileHover={{ y: -5 }}
             key={i}
-            className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-lg relative overflow-hidden group"
+            className=" rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-lg relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
               <Landmark size={100} />
@@ -60,9 +61,9 @@ export const SchemesSection = () => {
             </p>
 
             <Link href="/dashboard">
-              <button className="w-full py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center gap-2">
+              <Button className="w-full py-3 rounded-xl cursor-pointer border-2  font-bold  flex items-center justify-center gap-2">
                 Check Eligibility <ArrowRight size={16} />
-              </button>
+              </Button>
             </Link>
           </motion.div>
         ))}
