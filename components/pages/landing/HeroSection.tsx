@@ -1,14 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Play, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { BharatButton } from "@/components/ui/BharatButton";
 import { VideoModal } from "@/components/ui/VideoModal";
 import { useLanguage } from "@/context/LanguageContext";
 
-// --- Background Pattern ---
+// --- HIGH QUALITY IMAGES ---
+const CAROUSEL_IMAGES = [
+  "https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=800&auto=format&fit=crop", // Happy Man
+  "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop", // Farmer
+  "https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=800&auto=format&fit=crop", // Rural Digital
+];
+
 const GridPattern = () => (
   <svg
     className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-slate-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
@@ -36,9 +42,18 @@ const GridPattern = () => (
 export const HeroSection = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);
   const { t } = useLanguage();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Smooth Auto-Rotation (5 Seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % CAROUSEL_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section className="relative pt-16 pb-24 px-4 w-full mx-auto md:px-12 lg:px-24 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
+    <section className="relative pt-12 pb-20 px-4 w-full mx-auto md:px-12 lg:px-24 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
       <VideoModal isOpen={isVideoOpen} onClose={() => setVideoOpen(false)} />
       <GridPattern />
 
@@ -120,52 +135,68 @@ export const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* --- RIGHT: 3D PHONE VISUAL --- */}
-      <div className="flex-1 w-full max-w-md relative flex justify-center order-2">
+      {/* --- RIGHT: 3D PHONE (Fixed UI) --- */}
+      <div className="flex-1 w-full max-w-sm md:max-w-md relative flex justify-center order-2 px-4 md:px-0">
         <div className="relative w-full aspect-[4/5] perspective-1000">
           <motion.div
-            animate={{ y: [0, -15, 0], rotateX: [0, 5, 0], rotateY: [0, 5, 0] }}
+            animate={{ y: [0, -10, 0] }} // Gentle floating only
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-white dark:bg-slate-900 border-[8px] border-white dark:border-slate-800 rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden"
+            className="absolute inset-0 bg-slate-900 border-[10px] border-slate-100 rounded-[2.5rem] shadow-2xl overflow-hidden ring-1 ring-white/20"
           >
-            {/* Phone Image */}
-            <img
-              src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=1000&auto=format&fit=crop"
-              alt="Indian User"
-              className="w-full h-full object-cover  opacity-95  transition-transform duration-700"
-            />
+            {/* CAROUSEL CONTAINER */}
+            <div className="relative w-full h-full bg-slate-800">
+              <AnimatePresence mode="popLayout">
+                <motion.img
+                  key={currentImageIndex}
+                  src={CAROUSEL_IMAGES[currentImageIndex]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2 }}
+                  alt="Indian Citizen Success"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
 
-            {/* Success Card (Floating) */}
+              {/* Dark Gradient at Bottom for readability */}
+              <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            </div>
+
+            {/* Success Card (Premium Glass) */}
             <motion.div
-              initial={{ y: 100, opacity: 0 }}
+              initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
-              className="absolute bottom-6 left-6 right-6 bg-white/95 dark:bg-black/80 backdrop-blur-md p-5 rounded-2xl shadow-lg border-t-4 border-green-500"
+              transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+              className="absolute bottom-6 left-5 right-5 bg-white/10 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/20"
             >
-              <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
-                    <CheckCircle2 size={16} />
-                  </div>
-                  <span className="font-bold text-sm text-green-700 dark:text-green-400">
+              {/* Top Row: Approved Badge */}
+              <div className="flex justify-between items-start mb-3">
+                <div className="flex items-center gap-2 px-2 py-1 bg-green-500/20 rounded-lg border border-green-500/30">
+                  <CheckCircle2 size={14} className="text-green-400" />
+                  <span className="text-xs font-bold text-green-100 uppercase tracking-wide">
                     {t.cardApproved}
                   </span>
                 </div>
-                <span className="text-xs font-bold text-slate-400">
-                  Just Now
+                <span className="text-[10px] font-medium text-slate-300 bg-black/40 px-2 py-0.5 rounded-full">
+                  1 min ago
                 </span>
               </div>
 
-              <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-3xl font-black text-slate-900 dark:text-white">
-                  ₹6,000
+              {/* Money Row */}
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-3xl font-black text-white tracking-tight">
+                  ₹ 6,000
                 </span>
-                <span className="text-lg">🎉</span>
+                <span className="text-xl animate-bounce">🎉</span>
               </div>
 
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-                {t.cardCredit}
-              </p>
+              {/* Bank Credit Text */}
+              <div className="flex items-center gap-1.5 opacity-90">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <p className="text-xs text-slate-200 font-medium">
+                  {t.cardCredit}
+                </p>
+              </div>
             </motion.div>
           </motion.div>
         </div>
