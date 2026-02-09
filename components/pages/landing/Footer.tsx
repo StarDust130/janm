@@ -1,6 +1,7 @@
 "use client";
 
 import { Globe2, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export const Footer = () => {
@@ -10,16 +11,17 @@ export const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black">
-                J.
-              </div>
-              <span className="font-black text-2xl text-slate-900 dark:text-white">
-                JANM.
-              </span>
+              <Image
+                src="/logo-2.png"
+                alt="JANM Logo"
+                width={50}
+                height={50}
+                className="border bg-white rounded-xl"
+              />
             </div>
             <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-sm">
-              Building the digital bridge between Bharat's citizens and their
-              rights. Made with ❤️ for India.
+              Building the digital bridge between Bharat&apos;s citizens and
+              their rights. Made with ❤️ for India.
             </p>
           </div>
           <div>

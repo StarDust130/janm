@@ -15,7 +15,7 @@ export const BharatButton = ({
   ...props
 }: ButtonProps) => {
   const baseStyle =
-    "font-bold px-6 py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-xl text-sm md:text-base tracking-wide select-none";
+    "font-bold px-6 py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-xl text-sm md:text-base tracking-wide select-none cursor-pointer";
 
   const variants = {
     // Saffron Gradient

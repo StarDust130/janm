@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "@/components/ui/ModeToggle";
+import Image from "next/image";
 
 const INDIAN_LANGS = [
   { code: "hi", label: "हिंदी", flag: "🇮🇳" },
@@ -18,31 +20,18 @@ export const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [lang, setLang] = useState(INDIAN_LANGS[0]);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     if (isMenuOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "unset";
   }, [isMenuOpen]);
 
-  if (!mounted) return null;
-
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-white/80 dark:bg-[#0B1121]/90 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800 py-3 px-4">
+      <nav className="sticky top-0 z-40   backdrop-blur-xl border-b border-slate-100 py-3 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center gap-2 z-50">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-white to-green-500 rounded-xl p-[2px] shadow-sm">
-              <div className="w-full h-full bg-white dark:bg-black rounded-[10px] flex items-center justify-center">
-                <span className="font-black text-xl text-blue-700">J.</span>
-              </div>
-            </div>
-            <span className="font-black text-2xl tracking-tighter text-slate-900 dark:text-white">
-              JANM.
-            </span>
-          </div>
+         <Image src="/logo-2.png" alt="JANM Logo" width={50} height={50} className="border bg-white rounded-xl" />
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600 dark:text-slate-300">
@@ -72,12 +61,7 @@ export const Navbar = () => {
               <button className="text-xs font-bold border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex gap-2 transition-colors">
                 <span>{lang.flag}</span> <span>{lang.label}</span>
               </button>
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
-              </button>
+             <ModeToggle />
             </div>
 
             <SignedOut>

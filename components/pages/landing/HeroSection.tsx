@@ -36,7 +36,7 @@ export const HeroSection = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);
 
   return (
-    <section className="relative pt-12 pb-20 px-4 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 overflow-hidden">
+    <section className="relative pt-12 pb-20 px-4  w-full mx-auto md:px-24 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
       <VideoModal isOpen={isVideoOpen} onClose={() => setVideoOpen(false)} />
       <GridPattern />
 
